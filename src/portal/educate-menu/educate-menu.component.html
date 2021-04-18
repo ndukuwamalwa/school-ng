@@ -1,0 +1,15 @@
+<body>
+    <nav>
+        <p-panelMenu [model]="items" [style]="{'width':'var(--nav-width)'}" [multiple]="false"></p-panelMenu>
+    </nav>
+    <main>
+        <p-card [style]="{ 'display': 'flex', 'justify-content': 'flex-end' }">
+            <p-chip [label]="displayName" icon="pi pi-user" styleClass="p-mr-2"></p-chip>
+            <button pButton label="Logout" icon="pi pi-sign-out" (click)="logout()"></button>
+        </p-card>
+        <p-divider></p-divider>
+        <p-card>
+            <ng-content select=".page-content"></ng-content>
+        </p-card>
+    </main>
+</body>

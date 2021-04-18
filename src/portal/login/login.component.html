@@ -1,0 +1,69 @@
+<main>
+    <p-card *ngIf="loginPage">
+        <form class="centered" #f="ngForm" ngNativeValidate (ngSubmit)="login(f.value)">
+            <h2>Login</h2>
+            <p-divider></p-divider>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required [(ngModel)]="username" pInputText
+                        (keyup)="onInputChange()">
+                </div>
+                <div class="p-field">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required [ngModel]="'@Admin#2020'" pInputText
+                        (keyup)="onInputChange()">
+                </div>
+                <p-message severity="error" text="{{loginMessage}}" *ngIf="loginError"></p-message>
+                <div class="p-field">
+                    <button pButton label="Login" [disabled]="isLogingIn"></button>
+                    <p-button label="Forgot Password" styleClass="p-button-link" (onClick)="showResetPass()"></p-button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+    <p-card *ngIf="changePage" [style]="{'min-height': '370px !important'}">
+        <form class="centered" #f2="ngForm" ngNativeValidate (ngSubmit)="onChangePassword(f2.value)">
+            <h2>Change Password</h2>
+            <p-divider></p-divider>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="newPass">New Password</label>
+                    <input type="password" name="newPass" id="newPass" pInputText required ngModel
+                        (keyup)="onPassReentry()">
+                </div>
+                <div class="p-field">
+                    <label for="confirmPass">Confirm Password</label>
+                    <input type="password" name="confirmPass" id="confirmPass" pInputText required ngModel
+                        (keyup)="onPassReentry()">
+                </div>
+            </div>
+            <p-message severity="error" [text]="passwordChangeMessage" *ngIf="passwordChangeError"
+                [style]="{'width': '370px', 'text-align': 'justify'}"></p-message>
+            <p-divider></p-divider>
+            <div class="p-field">
+                <button pButton label="Change Password" [disabled]="isChangingPassword"></button>
+            </div>
+        </form>
+    </p-card>
+    <p-card *ngIf="resetPage">
+        <form class="centered" #f3="ngForm" (ngSubmit)="onResetPassword(f3.value)" ngNativeValidate>
+            <h2>Reset Password</h2>
+            <p-divider></p-divider>
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" pInputText required ngModel>
+                </div>
+                <p-message severity="success" text="A new password has been mailed to you." *ngIf="resetSuccessful">
+                </p-message>
+                <p-message severity="error" [text]="resetPassMessage" *ngIf="resetPassError"></p-message>
+                <p-divider></p-divider>
+                <div class="p-field">
+                    <button pButton label="Reset Password" [disabled]="isResetingPassword"></button>
+                    <p-button label="Login" styleClass="p-button-link" (onClick)="showLoginPage()"></p-button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</main>

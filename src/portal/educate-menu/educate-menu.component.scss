@@ -1,0 +1,12 @@
+body {
+    display: flex;
+}
+
+nav {
+    margin-right: 10px;
+}
+
+main {
+    margin-right: 10px;
+    width: calc(100% - var(--nav-width) - 10px);
+}

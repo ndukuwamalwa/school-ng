@@ -1,0 +1,24 @@
+main {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: 370px;
+    /*position: fixed;*/
+    width: 300px;
+
+    form {
+        width: 100%;
+        height: 100%;
+    }
+}

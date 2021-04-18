@@ -1,0 +1,60 @@
+<app-educate-menu>
+    <ng-container class="page-content">
+        <form ngValidateNative>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="code">Course Code</label>
+                    <input type="text" id="code" pInputText required name="code" ngModel>
+                </div>
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" required ngModel pInputText id="name">
+                </div>
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="duration_in">Duration Type</label>
+                    <p-dropdown [options]="durationTypes" optionLabel="name" optionValue="value"
+                        placeholder="Duration Type" [showClear]="true" [required]="true" id="duration_in"></p-dropdown>
+                </div>
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="duration">Duration</label>
+                    <input type="number" min="1" pInputText ngModel required name="duration" id="duration">
+                </div>
+            </div>
+            <p-divider></p-divider>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-4">
+                    <label for="department">Department</label>
+                    <p-dropdown [options]="departments" optionLabel="name" optionValue="value" placeholder="Department"
+                        [showClear]="true" id="department" [required]="true"></p-dropdown>
+                </div>
+                <div class="p-field p-col-12 p-md-8">
+                    <label for="description">Description</label>
+                    <input type="text" name="description" id="description" pInputText ngModel required>
+                </div>
+            </div>
+            <p-divider></p-divider>
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2"
+                        (click)="newJourney()"></button>
+                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+                        (click)="deleteJourneys()" [disabled]="!selectedJourneys || !selectedJourneys.length"></button>
+                </ng-template>
+            </p-toolbar>
+            <p-table [value]="journeys" [(selection)]="selectedJourneys" [rows]="ROWS" [paginator]="PAGINATOR"
+                dataKey="id" currentPageReportTemplate="{{PAGE_REPORT_TEMPLATE}}"
+                [showCurrentPageReport]="SHOW_CURRENT_REPORT_PAGE"
+                [rowHover]="true">
+                <ng-template pTemplate="caption">
+                    Course Levels
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="level">Level</th>
+                        <th p-pSortableColumn="fee">Fee</th>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </form>
+    </ng-container>
+</app-educate-menu>

@@ -200,12 +200,19 @@ export class EducateMenuComponent implements OnInit {
           {
             label: 'New',
             icon: PrimeIcons.PLUS,
-            visible: this.sessionService.canAccessItem('USERS.NEW')
+            visible: this.sessionService.canAccessItem('USERS.ADD'),
+            routerLink: '/users/add'
           },
           {
             label: 'List',
             icon: PrimeIcons.LIST,
             visible: this.sessionService.canAccessItem('USERS.LIST')
+          },
+          {
+            label: 'Access Roles',
+            icon: PrimeIcons.LOCK,
+            visible: this.sessionService.canAccessItem('USERS.ROLES'),
+            routerLink: '/users/roles'
           }
         ]
       },

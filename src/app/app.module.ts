@@ -10,6 +10,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/interceptors/token.interceptor';
 import { TicketsModule } from 'src/educate/tickets/tickets.module';
+import { UsersModule } from 'src/educate/users/users.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TicketsModule } from 'src/educate/tickets/tickets.module';
     CoursesModule,
     GraphQLModule,
     HttpClientModule,
-    TicketsModule
+    TicketsModule,
+    UsersModule
   ],
   providers: [
     {

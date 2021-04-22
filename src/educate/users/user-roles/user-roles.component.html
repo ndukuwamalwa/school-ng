@@ -1,0 +1,16 @@
+<app-educate-menu>
+    <ng-container class="page-content">
+        <form ngNativeValidate #f="ngForm" (ngSubmit)="saveRole(f)">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="name">New Role</label>
+                    <input type="text" name="name" id="name" required ngModel pInputText>
+                </div>
+                <div class="p-field p-col-12 p-md-3">
+                    <label for="saveBtn" class="transparent">.</label>
+                    <button label="Save" pButton id="saveBtn" [disabled]="isSaving"></button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</app-educate-menu>

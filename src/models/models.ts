@@ -17,3 +17,12 @@ export interface User {
     staffNo: string;
     username: string;
 }
+
+export interface Role {
+    name: string;
+    createdOn: string;
+    createdBy: string;
+    accessAreasCount: number;
+    accessPercentage: number;
+    userCount: number;
+}

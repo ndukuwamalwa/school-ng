@@ -58,6 +58,7 @@ export class SessionService {
     window.sessionStorage.setItem(this.AUTHORIZATIONS_KEY, this.secureWebStorage.encrypt(authorizations, token));
     this.router.navigateByUrl(this.getAfterLoginUrl());
     window.sessionStorage.removeItem(this.AFTER_LOGIN_SESS_KEY);
+    window.location.reload();
   }
 
   logout(): void {

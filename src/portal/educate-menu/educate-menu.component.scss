@@ -4,9 +4,34 @@ body {
 
 nav {
     margin-right: 10px;
+    position: fixed;
 }
 
 main {
     margin-right: 10px;
-    width: calc(100% - var(--nav-width) - 10px);
+    width: calc(99vw - var(--nav-width) - 10px);
+    left: calc(var(--nav-width) + 10px);
+    position: absolute;
+    z-index: 499;
+    top: calc(var(--top-width) + 10px);
+}
+
+.top {
+    position: fixed;
+    width: calc(99vw - var(--nav-width) - 10px);
+    left: calc(var(--nav-width) + 10px);
+    z-index: 500;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    height: var(--top-width);
+    padding: 5px;
+    top: 0;
+}
+
+h3 {
+    margin-bottom: 10px;
+    text-decoration: underline;
+    color: #2196f3;
 }

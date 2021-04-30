@@ -1,5 +1,6 @@
 :root {
     --nav-width: 250px;
+    --top-width: 50px;
     --cream-color: #e4e4e4fa;
 }
 
@@ -9,14 +10,36 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 14px;
+}
+
 body {
     padding    : 0;
     margin: 0;
     background-color: var(--cream-color);
-    font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”;
 }
 
 .transparent {
     color: transparent !important;
     background-color: transparent !important;
+}
+
+.detail-link {
+    color: rgb(55, 166, 231);
+    padding: 5px;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+.danger {
+    color: red;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }

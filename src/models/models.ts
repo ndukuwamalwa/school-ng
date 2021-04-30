@@ -19,6 +19,7 @@ export interface User {
 }
 
 export interface Role {
+    id: number;
     name: string;
     createdOn: string;
     createdBy: string;

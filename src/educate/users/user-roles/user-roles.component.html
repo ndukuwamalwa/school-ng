@@ -1,4 +1,4 @@
-<app-educate-menu>
+<app-educate-menu [pageTitle]="'System Access Roles'">
     <ng-container class="page-content">
         <form ngNativeValidate #f="ngForm" (ngSubmit)="saveRole(f)">
             <div class="p-fluid p-formgrid p-grid">
@@ -8,11 +8,30 @@
                 </div>
                 <div class="p-field p-col-12 p-md-3">
                     <label for="saveBtn" class="transparent">.</label>
-                    <button label="Save" pButton id="saveBtn" [disabled]="isSaving"></button>
+                    <button label="ADD" pButton id="saveBtn" [disabled]="isSaving"></button>
                 </div>
             </div>
         </form>
-        <p-table [value]="roles">
+        <p-dialog [header]="'Edit Role: ' + currentRole?.name" [(visible)]="showEditRole" [modal]="true">
+            <form #f4455="ngForm" ngNativeValidate>
+                <input type="text" pInputText required name="editRole" [ngModel]="currentRole?.name">
+            </form>
+            <ng-template pTemplate="footer">
+                <button pButton label="Save" (click)="editRole(f4455.value.editRole)"></button>
+            </ng-template>
+        </p-dialog>
+        <p-dialog [header]="currentRole?.name + ' Access Areas'" [(visible)]="showAreasPop" [modal]="true" [maximizable]="true">
+            <ng-template pTemplate="footer">
+                <button pButton label="Save Changes"></button>
+            </ng-template>
+        </p-dialog>
+        <p-dialog [header]="currentRole?.name + ' Users'" [(visible)]="showUsersPop" [modal]="true" [maximizable]="true">
+            <ng-template pTemplate="footer">
+                <button pButton label="Save Changes"></button>
+            </ng-template>
+        </p-dialog>
+        <p-confirmDialog></p-confirmDialog>
+        <p-table [value]="roles" styleClass="p-datatable-striped" selectionMode="single">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Role</th>
@@ -21,16 +40,19 @@
                     <th>Access Areas</th>
                     <th>System Access %</th>
                     <th>No. of Users</th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-role>
                 <tr>
-                    <td>{{role.name}}</td>
-                    <td>{{role.createdOn}}</td>
-                    <td>{{role.createdBy}}</td>
-                    <td>{{role.accessAreasCount}}</td>
-                    <td>{{role.accessPercentage}}</td>
-                    <td>{{role.userCount}}</td>
+                    <td>{{role.name}} | <span class="detail-link" (click)="onEditRole(role)">Edit</span></td>
+                    <td>{{role.createdOn | date}}</td>
+                    <td>{{role.createdBy | titlecase}}</td>
+                    <td>{{role.accessAreasCount | number}}<span class="detail-link"
+                            (click)="onViewAreas(role)">(View)</span></td>
+                    <td>{{role.accessPercentage | percent}}</td>
+                    <td>{{role.userCount | number}}<span class="detail-link" (click)="onUsers(role)">(View)</span></td>
+                    <td class="danger" (click)="askDeleteRole(role)">Delete</td>
                 </tr>
             </ng-template>
         </p-table>

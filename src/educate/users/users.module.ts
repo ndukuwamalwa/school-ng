@@ -7,6 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [UserFormComponent, UserRolesComponent],
@@ -16,7 +19,10 @@ import { TableModule } from 'primeng/table';
     FormsModule,
     InputTextModule,
     ButtonModule,
-    TableModule
-  ]
+    TableModule,
+    DialogModule,
+    ConfirmDialogModule
+  ],
+  providers: [ConfirmationService, MessageService]
 })
 export class UsersModule { }

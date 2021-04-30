@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 import { SessionService } from 'src/services/session.service';
 import { User } from 'src/models/models';
@@ -14,11 +14,17 @@ export class EducateMenuComponent implements OnInit {
   displayName = '';
   user: User = {} as User;
 
+  @Input() pageTitle = '';
+
   constructor(
     private sessionService: SessionService
   ) { }
 
   ngOnInit(): void {
+    if (!this.pageTitle || this.pageTitle.trim().length === 0) {
+      throw new Error('Page title cannot be blank');
+    }
+
     this.user = this.sessionService.getUser();
     this.displayName = StringEssentials.titleCase(`${this.user.username} | ${this.user.staffNo}`);
     this.items = [

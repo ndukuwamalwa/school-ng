@@ -2,13 +2,12 @@
     <ng-container class="page-content">
         <p-menubar [model]="menu"></p-menubar>
         <br>
-        <p-table  styleClass="p-datatable-striped" selectionMode="single" [value]="users">
+        <p-table styleClass="p-datatable-striped" selectionMode="single" [value]="users">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Username</th>
                     <th>Staff No</th>
                     <th>Created</th>
-                    <th>Created By</th>
                     <th>Role</th>
                     <th></th>
                     <th></th>
@@ -19,14 +18,61 @@
                 <tr>
                     <td>{{user.username | lowercase}}</td>
                     <td>{{user.staffNo | uppercase}}</td>
-                    <td>{{user.created | date}}</td>
-                    <td>{{user.createdBy | lowercase}}</td>
-                    <td>{{user.role}}</td>
-                    <td>Enable</td>
-                    <td class="danger">Disable</td>
-                    <td class="danger">Delete</td>
+                    <td>{{user.createdOn | date}}</td>
+                    <td>{{user.roleName}}</td>
+                    <td class="link" (click)="showAccessAreas(user)">Access Areas</td>
+                    <td class="link" *ngIf="!user.active" (click)="toggleUserStatus(user, true)">Enable</td>
+                    <td class="danger" *ngIf="user.active" (click)="toggleUserStatus(user, false)">Disable</td>
+                    <td class="danger" (click)="onDeleteUser(user)">Delete</td>
                 </tr>
             </ng-template>
         </p-table>
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
+        <p-dialog [modal]="true" [(visible)]="showAreasPop" [maximizable]="true"
+            [header]="'Access Areas: ' + currentUser?.username">
+            <p-card>
+                <div *ngFor="let mod of userProcessModules">
+                    <div class="p-field-checkbox">
+                        <label [for]="mod.shortDesc" [style]="{'font-weight': 'bold'}">{{mod.description}}</label>
+                    </div>
+                    <div *ngFor="let submod of mod.processes" [style]="{'margin-left': '40px'}">
+                        <div class="p-field-checkbox">
+                            <p-inputSwitch [ngModel]="submod.checked" [disabled]="submod.disabled"
+                                (onChange)="grantRevoke($event, mod, submod)" [inputId]="submod.shortDesc">
+                            </p-inputSwitch>
+                            <label [for]="submod.shortDesc">{{submod.description}}</label>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
+            <ng-template pTemplate="footer">
+                <button pButton icon="pi pi-save" label="Save Changes"
+                    [disabled]="(grant.length === 0 && revoke.length === 0) || isSaving"
+                    (click)="saveProceses()"></button>
+            </ng-template>
+        </p-dialog>
+        <p-dialog [modal]="true" [(visible)]="showCreateUser" [maximizable]="false" [header]="'Create New User'">
+            <ng-template pTemplate="body">
+                <form (submit)="createUser(fCreateUser)" #fCreateUser="ngForm" ngNativeValidate>
+                    <div class="p-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12 p-md-5">
+                            <label for="staffNo">Staff No.</label>
+                            <input type="text" pInputText required ngModel name="staffNo" id="staffNo">
+                        </div>
+                        <div class="p-field p-col-12 p-md-5">
+                            <label for="role">Role</label>
+                            <p-dropdown [inputId]="'role'" [options]="roles" [(ngModel)]="selectedRole"
+                                optionLabel="name" [showClear]="true" placeholder="Select Role(Optional)"
+                                [name]="'role'" appendTo="body"></p-dropdown>
+                        </div>
+                        <div class="p-field p-col-12 p-md-5">
+                            <label class="transparent">.</label>
+                            <button pButton label="Create" icon="pi pi-user"></button>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </p-dialog>
     </ng-container>
 </app-educate-menu>

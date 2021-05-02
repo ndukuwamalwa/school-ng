@@ -25,14 +25,14 @@
             <p-card>
                 <div *ngFor="let mod of roleProcessModules">
                     <div class="p-field-checkbox">
-                        <p-inputSwitch [ngModel]="mod.checked" (onChange)="onModuleCheckChange($event, mod)">
+                        <p-inputSwitch [ngModel]="mod.checked" (onChange)="onModuleCheckChange($event, mod)" [inputId]="mod.shortDesc">
                         </p-inputSwitch>
-                        <label [for]="mod?.shortDesc" [style]="{'font-weight': 'bold'}">{{mod.description}}</label>
+                        <label [for]="mod.shortDesc" [style]="{'font-weight': 'bold'}">{{mod.description}}</label>
                     </div>
                     <div *ngFor="let submod of mod.processes" [style]="{'margin-left': '40px'}">
                         <div class="p-field-checkbox">
                             <p-inputSwitch [ngModel]="submod.checked" [disabled]="submod.disabled"
-                                (onChange)="grantRevoke($event, mod, submod)"></p-inputSwitch>
+                                (onChange)="grantRevoke($event, mod, submod)" [inputId]="submod.shortDesc"></p-inputSwitch>
                             <label [for]="submod.shortDesc">{{submod.description}}</label>
                         </div>
                     </div>
@@ -85,7 +85,6 @@
                 <tr>
                     <th>Role</th>
                     <th>Date Created</th>
-                    <th>Created By</th>
                     <th>Access Areas</th>
                     <th>System Access %</th>
                     <th>No. of Users</th>
@@ -96,7 +95,6 @@
                 <tr>
                     <td>{{role.name}} | <span class="detail-link" (click)="onEditRole(role)">Edit</span></td>
                     <td>{{role.createdOn | date}}</td>
-                    <td>{{role.createdBy | titlecase}}</td>
                     <td>{{role.accessAreasCount | number}}<span class="detail-link"
                             (click)="onViewAreas(role)">(View)</span></td>
                     <td>{{role.accessPercentage | percent}}</td>

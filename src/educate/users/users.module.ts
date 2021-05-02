@@ -14,6 +14,7 @@ import { CardModule } from 'primeng/card';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { UserListComponent } from './user-list/user-list.component';
 import { MenubarModule } from 'primeng/menubar';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [UserRolesComponent, UserListComponent],
@@ -29,7 +30,8 @@ import { MenubarModule } from 'primeng/menubar';
     ToastModule,
     CardModule,
     InputSwitchModule,
-    MenubarModule
+    MenubarModule,
+    DropdownModule
   ],
   providers: [ConfirmationService, MessageService]
 })

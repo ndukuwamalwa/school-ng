@@ -16,6 +16,7 @@ export interface User {
     role: string;
     staffNo: string;
     username: string;
+    roleName: string;
 }
 
 export interface Role {
@@ -41,4 +42,5 @@ export interface ApplicationModule {
     description: string;
     processes: Array<ApplicationProcess>;
     checked: boolean;
+    disabled?: boolean;
 }

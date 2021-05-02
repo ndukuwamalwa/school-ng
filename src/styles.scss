@@ -43,3 +43,12 @@ body {
         text-decoration: underline;
     }
 }
+
+.link {
+    color: blue;
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

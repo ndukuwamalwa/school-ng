@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginError = false;
   passwordChangeMessage = '';
   passwordChangeError = false;
-  username = 'ADMIN';
+  username = 'Admin';
   resetPassMessage = '';
   resetPassError = false;
   loginPage = true;

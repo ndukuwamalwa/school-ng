@@ -51,7 +51,15 @@ export const GET_USERS_QUERY = gql`{
     password
     reset
     role
+    roleName
     staffNo
     username
+  }
+}`;
+
+export const GET_USER_AREAS = (username: string) => gql`{
+  getUserProcessAreas(username: "${username}") {
+    roleBased
+    userBased
   }
 }`;

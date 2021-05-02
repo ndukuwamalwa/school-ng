@@ -6,9 +6,9 @@
                     <label for="name">New Role</label>
                     <input type="text" name="name" id="name" required ngModel pInputText>
                 </div>
-                <div class="p-field p-col-12 p-md-3">
+                <div class="p-field p-col-12 p-md-2">
                     <label for="saveBtn" class="transparent">.</label>
-                    <button label="ADD" pButton id="saveBtn" [disabled]="isSaving"></button>
+                    <button label="ADD" pButton id="saveBtn" icon="pi pi-plus" [disabled]="isSaving"></button>
                 </div>
             </div>
         </form>
@@ -17,20 +17,69 @@
                 <input type="text" pInputText required name="editRole" [ngModel]="currentRole?.name">
             </form>
             <ng-template pTemplate="footer">
-                <button pButton label="Save" (click)="editRole(f4455.value.editRole)"></button>
+                <button pButton label="Save" (click)="editRole(f4455.value.editRole)" icon="pi pi-save"></button>
             </ng-template>
         </p-dialog>
-        <p-dialog [header]="currentRole?.name + ' Access Areas'" [(visible)]="showAreasPop" [modal]="true" [maximizable]="true">
+        <p-dialog [header]="currentRole?.name + ' Access Areas'" [(visible)]="showAreasPop" [modal]="true"
+            [maximizable]="true">
+            <p-card>
+                <div *ngFor="let mod of roleProcessModules">
+                    <div class="p-field-checkbox">
+                        <p-inputSwitch [ngModel]="mod.checked" (onChange)="onModuleCheckChange($event, mod)">
+                        </p-inputSwitch>
+                        <label [for]="mod?.shortDesc" [style]="{'font-weight': 'bold'}">{{mod.description}}</label>
+                    </div>
+                    <div *ngFor="let submod of mod.processes" [style]="{'margin-left': '40px'}">
+                        <div class="p-field-checkbox">
+                            <p-inputSwitch [ngModel]="submod.checked" [disabled]="submod.disabled"
+                                (onChange)="grantRevoke($event, mod, submod)"></p-inputSwitch>
+                            <label [for]="submod.shortDesc">{{submod.description}}</label>
+                        </div>
+                    </div>
+                </div>
+            </p-card>
             <ng-template pTemplate="footer">
-                <button pButton label="Save Changes"></button>
+                <button pButton label="Save Changes" icon="pi pi-save" (click)="saveProcessesChanges()"
+                    [disabled]="grant.length === 0 && revoke.length === 0"></button>
             </ng-template>
         </p-dialog>
-        <p-dialog [header]="currentRole?.name + ' Users'" [(visible)]="showUsersPop" [modal]="true" [maximizable]="true">
-            <ng-template pTemplate="footer">
-                <button pButton label="Save Changes"></button>
-            </ng-template>
+        <p-dialog [header]="currentRole?.name + ' Users'" [(visible)]="showUsersPop" [modal]="true"
+            [maximizable]="true">
+            <form (submit)="addUserToRole(fetwrt)" #fetwrt="ngForm" ngNativeValidate>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-8">
+                        <label for="username">Add User <i>(Removes user from current role)</i></label>
+                        <input type="text" name="username" id="username" placeholder="username" required ngModel
+                            pInputText>
+                    </div>
+                    <div class="p-field p-col-12 p-md-3">
+                        <label for="saveBtn" class="transparent">.</label>
+                        <button label="ADD" pButton id="saveBtn" icon="pi pi-plus" [disabled]="isSaving"></button>
+                    </div>
+                </div>
+            </form>
+            <p-table [value]="users" styleClass="p-datatable-striped" selectionMode="single"
+                [style]="{'width':'450px'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Username</th>
+                        <th>Created By</th>
+                        <th>Staff No</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr>
+                        <td>{{user.username | lowercase}}</td>
+                        <td>{{user.createdBy | lowercase}}</td>
+                        <td>{{user.staffNo | uppercase}}</td>
+                        <td class="danger" (click)="removeUser(user)">Remove</td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </p-dialog>
         <p-confirmDialog></p-confirmDialog>
+        <p-toast></p-toast>
         <p-table [value]="roles" styleClass="p-datatable-striped" selectionMode="single">
             <ng-template pTemplate="header">
                 <tr>
@@ -40,7 +89,7 @@
                     <th>Access Areas</th>
                     <th>System Access %</th>
                     <th>No. of Users</th>
-                    <th></th>
+                    <th> </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-role>

@@ -27,3 +27,18 @@ export interface Role {
     accessPercentage: number;
     userCount: number;
 }
+
+export interface ApplicationProcess {
+    appModule: string;
+    shortDesc: string;
+    description: string;
+    checked: boolean;
+    disabled: boolean;
+}
+
+export interface ApplicationModule {
+    shortDesc: string;
+    description: string;
+    processes: Array<ApplicationProcess>;
+    checked: boolean;
+}

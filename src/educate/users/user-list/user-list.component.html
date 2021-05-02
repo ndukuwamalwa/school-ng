@@ -1,0 +1,32 @@
+<app-educate-menu [pageTitle]="'System Users'">
+    <ng-container class="page-content">
+        <p-menubar [model]="menu"></p-menubar>
+        <br>
+        <p-table  styleClass="p-datatable-striped" selectionMode="single" [value]="users">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Username</th>
+                    <th>Staff No</th>
+                    <th>Created</th>
+                    <th>Created By</th>
+                    <th>Role</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <td>{{user.username | lowercase}}</td>
+                    <td>{{user.staffNo | uppercase}}</td>
+                    <td>{{user.created | date}}</td>
+                    <td>{{user.createdBy | lowercase}}</td>
+                    <td>{{user.role}}</td>
+                    <td>Enable</td>
+                    <td class="danger">Disable</td>
+                    <td class="danger">Delete</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+</app-educate-menu>

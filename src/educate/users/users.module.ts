@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserFormComponent } from './user-form/user-form.component';
 import { PortalModule } from 'src/portal/portal.module';
 import { UserRolesComponent } from './user-roles/user-roles.component';
 import { FormsModule } from '@angular/forms';
@@ -10,9 +9,14 @@ import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { CardModule } from 'primeng/card';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { UserListComponent } from './user-list/user-list.component';
+import { MenubarModule } from 'primeng/menubar';
 
 @NgModule({
-  declarations: [UserFormComponent, UserRolesComponent],
+  declarations: [UserRolesComponent, UserListComponent],
   imports: [
     CommonModule,
     PortalModule,
@@ -21,7 +25,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     ButtonModule,
     TableModule,
     DialogModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    ToastModule,
+    CardModule,
+    InputSwitchModule,
+    MenubarModule
   ],
   providers: [ConfirmationService, MessageService]
 })

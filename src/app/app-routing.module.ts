@@ -6,6 +6,7 @@ import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TicketsComponent } from 'src/educate/tickets/tickets/tickets.component';
 import { UserRolesComponent } from 'src/educate/users/user-roles/user-roles.component';
 import { UserListComponent } from 'src/educate/users/user-list/user-list.component';
+import { EmployeeCreateComponent } from 'src/educate/employees/employee-create/employee-create.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'users/roles',
     component: UserRolesComponent,
+    canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'employees/create',
+    component: EmployeeCreateComponent,
     canActivate: [AuthenticatedGuard]
   }
 ];

@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Role, ApplicationModule, ApplicationProcess, User } from 'src/models/models';
 import { GET_ROLES_QUERY, GET_APPLICATION_MODULES_QUERY, GET_ROLE_PROCESS_AREAS, GET_ROLE_USERS_QUERY } from '../user.queries';
 import { ConfirmationService, MessageService, PrimeIcons } from 'primeng/api';
+import { GraphQLEssentials } from 'src/essentials/graphql.essentials';
 
 @Component({
   selector: 'app-user-roles',
@@ -58,7 +59,10 @@ export class UserRolesComponent implements OnInit {
     this.apollo.mutate({
       mutation: gql`
       mutation m {
-        createUserRole(role: "${form.value.name}")
+        createUserRole(role: "${form.value.name}") {
+          success
+          message
+        }
       }`,
       refetchQueries: [{
         query: GET_ROLES_QUERY
@@ -70,11 +74,10 @@ export class UserRolesComponent implements OnInit {
         if (res.errors) {
           this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Communication Failure' });
         } else {
-          const result: boolean = (res.data as any).createUserRole;
-          if (result) {
+          const result = GraphQLEssentials.handleMutationResponse(res, 'createUserRole');
+          this.messageService.add(result.message);
+          if (result.success) {
             form.reset();
-          } else {
-            this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Encountered Problem when saving new role' });
           }
         }
       }, err => {
@@ -147,7 +150,10 @@ export class UserRolesComponent implements OnInit {
     } else {
       this.apollo.mutate({
         mutation: gql`mutation m{
-          updateUserRole(role: ${this.currentRole.id}, newName: "${newName}")
+          updateUserRole(role: ${this.currentRole.id}, newName: "${newName}") {
+            success
+            message
+          }
         }`,
         refetchQueries: [
           {
@@ -156,16 +162,10 @@ export class UserRolesComponent implements OnInit {
         ]
       })
         .subscribe(res => {
-          if (res.errors) {
-            this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Failed to Edit Record' });
-          } else {
-            const success: boolean = (res.data as any).updateUserRole;
-            if (success) {
-              this.showEditRole = false;
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Changes Saved' });
-            } else {
-              this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Failed to Edit Record' });
-            }
+          const result = GraphQLEssentials.handleMutationResponse(res, 'updateUserRole');
+          this.messageService.add(result.message);
+          if (result.success) {
+            this.showEditRole = false;
           }
         });
     }
@@ -179,7 +179,10 @@ export class UserRolesComponent implements OnInit {
       accept: () => {
         this.apollo.mutate({
           mutation: gql`mutation m{
-            deleteUserRole(role: ${role.id})
+            deleteUserRole(role: ${role.id}) {
+              success
+              message
+            }
           }`,
           refetchQueries: [{
             query: GET_ROLES_QUERY
@@ -187,11 +190,8 @@ export class UserRolesComponent implements OnInit {
           errorPolicy: 'none'
         })
           .subscribe(res => {
-            if (res.errors) {
-              this.messageService.add({ severity: 'info', summary: 'Failed', detail: 'Failed to Delete Record' });
-            } else {
-              this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Role Deleted Successfully' });
-            }
+            const result = GraphQLEssentials.handleMutationResponse(res, 'deleteUserRole');
+            this.messageService.add(result.message);
           }, err => {
             this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Communication Failure' });
           });
@@ -286,21 +286,22 @@ export class UserRolesComponent implements OnInit {
       accept: () => {
         this.apollo.mutate({
           mutation: gql`mutation m($grant: [String]!, $revoke: [String]!){
-            alterRoleProcesses(role: ${this.currentRole.id}, grant: $grant, revoke: $revoke)
+            alterRoleProcesses(role: ${this.currentRole.id}, grant: $grant, revoke: $revoke) {
+              success
+              message
+            }
           }`,
           refetchQueries: [{ query: GET_ROLES_QUERY }],
           variables: { grant: this.grant, revoke: this.revoke }
         })
           .subscribe(res => {
             if (res.data) {
-              const result = (res.data as any).alterRoleProcesses;
-              if (result) {
+              const result = GraphQLEssentials.handleMutationResponse(res, 'alterRoleProcesses');
+              this.messageService.add(result.message);
+              if (result.success) {
                 this.showAreasPop = false;
                 this.grant = [];
                 this.revoke = [];
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Changes Saved' });
-              } else {
-                this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Role Modification Failed' });
               }
             }
           });
@@ -316,21 +317,19 @@ export class UserRolesComponent implements OnInit {
       accept: () => {
         this.apollo.mutate({
           mutation: gql`mutation m{
-            deassignUserFromRole(username: "${user.username}", role: ${this.currentRole.id})
+            deassignUserFromRole(username: "${user.username}", role: ${this.currentRole.id}) {
+              success
+              message
+            }
           }`,
           refetchQueries: [{ query: GET_ROLES_QUERY }]
         })
           .subscribe(res => {
-            if (res.errors) {
-              this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Failed to remove user' });
-            } else {
-              const success: boolean = (res.data as any).deassignUserFromRole;
-              if (!success) {
-                this.messageService.add({ severity: 'warn', summary: 'Failed', detail: 'Failed to remove user' });
-              } else {
-                this.getRoleUsers();
-                this.messageService.add({ severity: 'success', summary: 'Success' });
-              }
+            const result = GraphQLEssentials.handleMutationResponse(res, 'deassignUserFromRole');
+            this.messageService.add(result.message);
+            if (result.success) {
+              this.getRoleUsers();
+              this.messageService.add({ severity: 'success', summary: 'Success' });
             }
           });
       }
@@ -358,20 +357,21 @@ export class UserRolesComponent implements OnInit {
     this.isSaving = true;
     this.apollo.mutate({
       mutation: gql`mutation m{
-        addUserToRole(role: ${this.currentRole.id}, username: "${username}")
+        addUserToRole(role: ${this.currentRole.id}, username: "${username}") {
+          success
+          message
+        }
       }`,
       refetchQueries: [{ query: GET_ROLES_QUERY }]
     })
       .subscribe(res => {
         this.isSaving = false;
         if (res.data) {
-          const success: boolean = (res.data as any).addUserToRole;
-          if (success) {
+          const result = GraphQLEssentials.handleMutationResponse(res, 'addUserToRole');
+          this.messageService.add(result.message);
+          if (result.success) {
             this.getRoleUsers();
             form.reset();
-            this.messageService.add({ severity: 'success', summary: 'Added Successfully' });
-          } else {
-            this.messageService.add({ severity: 'warn', summary: 'Addition Failed' });
           }
         }
       });

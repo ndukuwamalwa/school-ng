@@ -3,7 +3,6 @@ import { MenuItem, PrimeIcons, ConfirmationService, MessageService } from 'prime
 import { User, ApplicationModule, ApplicationProcess, Role } from 'src/models/models';
 import { Apollo, gql } from 'apollo-angular';
 import { GET_USERS_QUERY, GET_APPLICATION_MODULES_QUERY, GET_USER_AREAS, GET_ROLES_QUERY } from '../user.queries';
-import { MessageEssentials } from 'src/essentials/message.essentials';
 import { NgForm } from '@angular/forms';
 import { GraphQLEssentials } from 'src/essentials/graphql.essentials';
 
@@ -90,16 +89,16 @@ export class UserListComponent implements OnInit {
       accept: () => {
         this.apollo.mutate({
           mutation: gql`mutation m {
-            deleteUser(username: "${user.username}")
+            deleteUser(username: "${user.username}") {
+              success
+              message
+            }
           }`,
           refetchQueries: [{ query: GET_USERS_QUERY }]
         })
           .subscribe(res => {
-            if (res.errors || !(res.data as any).deleteUser) {
-              this.messageService.add(MessageEssentials.warn('Failed', `Failed to delete ${user.username}`));
-            } else {
-              this.messageService.add(MessageEssentials.success());
-            }
+            const result = GraphQLEssentials.handleMutationResponse(res, 'deleteUser');
+            this.messageService.add(result.message);
           });
       }
     });
@@ -113,16 +112,16 @@ export class UserListComponent implements OnInit {
       accept: () => {
         this.apollo.mutate({
           mutation: gql`mutation m {
-            toggleUserStatus(username: "${user.username}", enable: ${enable})
+            toggleUserStatus(username: "${user.username}", enable: ${enable}) {
+              success
+              message
+            }
           }`,
           refetchQueries: [{ query: GET_USERS_QUERY }]
         })
           .subscribe(res => {
-            if (res.errors || !(res.data as any).toggleUserStatus) {
-              this.messageService.add(MessageEssentials.warn('Failed', 'Could not change user status'));
-            } else {
-              this.messageService.add(MessageEssentials.success());
-            }
+            const result = GraphQLEssentials.handleMutationResponse(res, 'toggleUserStatus');
+            this.messageService.add(result.message);
           });
       }
     });
@@ -249,7 +248,10 @@ export class UserListComponent implements OnInit {
         this.isSaving = true;
         this.apollo.mutate({
           mutation: gql`mutation m($grant: [String]!, $revoke: [String]!) {
-            alterUserProcesses(username: "${this.currentUser.username}", grant: $grant, revoke: $revoke)
+            alterUserProcesses(username: "${this.currentUser.username}", grant: $grant, revoke: $revoke) {
+              success
+              message
+            }
           }`,
           variables: {
             grant: this.grant,
@@ -259,12 +261,11 @@ export class UserListComponent implements OnInit {
         })
           .subscribe(res => {
             this.isSaving = false;
-            if (res.errors || !(res.data as any).alterUserProcesses) {
-              this.messageService.add(MessageEssentials.warn('Failed', `Failed to Grant/Revoke roles to ${this.currentUser.username}`));
-            } else {
+            const result = GraphQLEssentials.handleMutationResponse(res, 'alterUserProcesses');
+            this.messageService.add(result.message);
+            if (result.success) {
               this.showAreasPop = false;
               this.clearPanel();
-              this.messageService.add(MessageEssentials.success());
             }
           });
       }

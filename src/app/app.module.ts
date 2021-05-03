@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/interceptors/token.interceptor';
 import { TicketsModule } from 'src/educate/tickets/tickets.module';
 import { UsersModule } from 'src/educate/users/users.module';
+import { EmployeesModule } from 'src/educate/employees/employees.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UsersModule } from 'src/educate/users/users.module';
     GraphQLModule,
     HttpClientModule,
     TicketsModule,
-    UsersModule
+    UsersModule,
+    EmployeesModule
   ],
   providers: [
     {

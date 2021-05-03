@@ -7,6 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SessionService } from 'src/services/session.service';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -33,7 +34,17 @@ export class TokenInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${bearer}`
       }
     });
-    return next.handle(request);
+
+    return next.handle(request).pipe(map(event => {
+      return event as any;
+    }), catchError((error, caught) => {
+      const exceptions = ['LOGIN', 'PASSWORD_CHANGE', 'PASSWORD_RESET'];
+
+      if (error.status === 401 && !exceptions.includes(bearer)) {
+        this.sessionService.logout();
+      }
+      throw error;
+    }));
   }
 
   private pathIs(request: HttpRequest<unknown>, re: RegExp): boolean {

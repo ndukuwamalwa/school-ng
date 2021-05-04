@@ -12,6 +12,7 @@ import { TokenInterceptor } from 'src/interceptors/token.interceptor';
 import { TicketsModule } from 'src/educate/tickets/tickets.module';
 import { UsersModule } from 'src/educate/users/users.module';
 import { EmployeesModule } from 'src/educate/employees/employees.module';
+import { DepartmentsModule } from 'src/educate/departments/departments.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EmployeesModule } from 'src/educate/employees/employees.module';
     HttpClientModule,
     TicketsModule,
     UsersModule,
-    EmployeesModule
+    EmployeesModule,
+    DepartmentsModule
   ],
   providers: [
     {

@@ -3,6 +3,7 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
 import { SessionService } from 'src/services/session.service';
 import { User } from 'src/models/models';
 import { StringEssentials } from 'src/essentials/string.essentials';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-educate-menu',
@@ -17,7 +18,8 @@ export class EducateMenuComponent implements OnInit {
   @Input() pageTitle = '';
 
   constructor(
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -185,6 +187,9 @@ export class EducateMenuComponent implements OnInit {
         label: 'Employees',
         icon: PrimeIcons.USERS,
         visible: this.sessionService.canAccessModule('EMPLOYEES'),
+        expanded: this.whenLinkIn([
+          '/employees/create'
+        ]),
         items: [
           {
             label: 'New',
@@ -203,6 +208,9 @@ export class EducateMenuComponent implements OnInit {
         label: 'Users',
         icon: PrimeIcons.USER_PLUS,
         visible: this.sessionService.canAccessModule('USERS'),
+        expanded: this.whenLinkIn([
+          '/users/list', '/users/roles'
+        ]),
         items: [
           {
             label: 'List',
@@ -215,6 +223,20 @@ export class EducateMenuComponent implements OnInit {
             icon: PrimeIcons.LOCK,
             visible: this.sessionService.canAccessItem('USERS.ROLES'),
             routerLink: '/users/roles'
+          }
+        ]
+      },
+      {
+        label: 'Departments',
+        icon: PrimeIcons.BARS,
+        visible: this.sessionService.canAccessModule('DEPARTMENTS'),
+        expanded: this.whenLinkIn(['/departments/list']),
+        items: [
+          {
+            label: 'List',
+            icon: PrimeIcons.LIST,
+            visible: true,
+            routerLink: '/departments/list'
           }
         ]
       },
@@ -235,6 +257,13 @@ export class EducateMenuComponent implements OnInit {
 
   logout(): void {
     this.sessionService.logout();
+  }
+
+  whenLinkIn(links: Array<string>): boolean {
+    if (links.indexOf(this.router.url) > -1) {
+      return true;
+    }
+    return false;
   }
 
 }

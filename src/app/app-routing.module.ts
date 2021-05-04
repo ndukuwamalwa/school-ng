@@ -7,6 +7,7 @@ import { TicketsComponent } from 'src/educate/tickets/tickets/tickets.component'
 import { UserRolesComponent } from 'src/educate/users/user-roles/user-roles.component';
 import { UserListComponent } from 'src/educate/users/user-list/user-list.component';
 import { EmployeeCreateComponent } from 'src/educate/employees/employee-create/employee-create.component';
+import { DepartmentsListComponent } from 'src/educate/departments/departments-list/departments-list.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'employees/create',
     component: EmployeeCreateComponent,
+    canActivate: [AuthenticatedGuard]
+  },
+  {
+    path: 'departments/list',
+    component: DepartmentsListComponent,
     canActivate: [AuthenticatedGuard]
   }
 ];

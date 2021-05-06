@@ -1,5 +1,41 @@
 <app-educate-menu [pageTitle]="'Departments'">
     <ng-container class="page-content">
+        <p-menubar [model]="menu"></p-menubar>
+        <p-dialog [header]="action + ' Department'" [modal]="true" [maximizable]="false"
+            [(visible)]="showAddDepartment">
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="onSave(f)">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" pInputText id="name" [ngModel]="department?.name" required>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="contact">Contact No</label>
+                        <input type="tel" name="contact" id="contact" pInputText [ngModel]="department?.contact"
+                            required>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="hod">Head of Department</label>
+                        <p-dropdown [options]="employees" ngModel name="hod" [filter]="true" placeholder="H.O.D"
+                            [showClear]="true" appendTo="body" optionLabel="name" [filterBy]="'name,staffNo,idNo'">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="motto">Motto</label>
+                        <input type="text" name="motto" id="motto" pInputText [ngModel]="department?.motto">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-2">
+                        <button label="Save" icon="pi pi-save" pButton></button>
+                    </div>
+                </div>
+            </form>
+        </p-dialog>
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
         <p-table [value]="departments">
             <ng-template pTemplate="header">
                 <tr>
@@ -7,8 +43,8 @@
                     <th>Contact</th>
                     <th>Motto</th>
                     <th>HOD</th>
-                    <th>Courses</th>
-                    <th>Members</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-department>
@@ -17,8 +53,8 @@
                     <td>{{department.contact}}</td>
                     <td>{{department.motto}}</td>
                     <td>{{department.hodName}}</td>
-                    <td (click)="onViewCourses(department)" class="link">Courses</td>
-                    <td (click)="onViewMembers(department)" class="link">Members</td>
+                    <td class="link" (click)="onEdit(department)">Edit</td>
+                    <td class="danger" (click)="confirmDelete(department)">Delete</td>
                 </tr>
             </ng-template>
         </p-table>

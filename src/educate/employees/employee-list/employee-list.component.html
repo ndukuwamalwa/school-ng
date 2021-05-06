@@ -1,0 +1,200 @@
+<app-educate-menu [pageTitle]="'Employees'">
+    <ng-container class="page-content">
+        <p-menubar [model]="menu"></p-menubar>
+        <p-dialog [header]="action + ' Employee'" [modal]="true" [maximizable]="true" [(visible)]="showAddEmployee">
+            <form #f="ngForm" ngNativeValidate (ngSubmit)="saveEmployee(f)">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="staffNo">Staff No.</label>
+                        <input type="text" [ngModel]="currentEmployee?.staffNo" required pInputText name="staffNo"
+                            id="staffNo">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="firstname">First Name</label>
+                        <input type="text" [ngModel]="currentEmployee?.firstname" required pInputText name="firstname"
+                            id="firstname">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" [ngModel]="currentEmployee?.lastname" required pInputText name="lastname"
+                            id="lastname">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="othernames">Other Names</label>
+                        <input type="text" [ngModel]="currentEmployee?.othernames" pInputText name="othernames"
+                            id="othernames">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="dob">Date of Birth</label>
+                        <p-calendar [ngModel]="currentEmployee?.dob" required="true" name="dob"
+                            [inputId]="'dob'"></p-calendar>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="gender">Gender</label>
+                        <p-dropdown [options]="genders" optionLabel="name" optionValue="value" placeholder="Select"
+                            [ngModel]="currentEmployee?.gender" name="gender" [inputId]="'gender'"
+                            appendTo="body" required="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="idType">Identification Type</label>
+                        <p-dropdown [options]="idTypes" optionLabel="name" optionValue="value"
+                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType" required name="idType"
+                            [inputId]="'idType'" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="idNo">Identification Number</label>
+                        <input type="text" [ngModel]="currentEmployee?.idNo" required pInputText name="idNo" id="idNo">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="email">Email Address</label>
+                        <input type="email" [ngModel]="currentEmployee?.email" required pInputText name="email"
+                            id="email">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" [ngModel]="currentEmployee?.phone" required pInputText name="phone"
+                            id="phone">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="town">Town/City</label>
+                        <input type="text" [ngModel]="currentEmployee?.town" required pInputText name="town" id="town">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="address">Address</label>
+                        <input type="address" [ngModel]="currentEmployee?.address" required pInputText name="address"
+                            id="address">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="kraPIN">Tax PIN</label>
+                        <input type="text" [ngModel]="currentEmployee?.kraPIN" pInputText name="kraPIN" id="kraPIN">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="">Social Security Fund ID</label>
+                        <input type="text" [ngModel]="currentEmployee?.nssf" pInputText name="nssf" id="nssf">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="nhif">National Medical Cover No.</label>
+                        <input type="text" [ngModel]="currentEmployee?.nhif" pInputText name="nhif" id="nhif">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="bank">Bank</label>
+                        <p-dropdown [options]="banks" optionLabel="description" name="bank" placeholder="Bank"
+                            [ngModel]="currentEmployee?.bankId" (onChange)="onBankSelected($event)" appendTo="body" [inputId]="'bank'">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="bankBranch">Bank Branch</label>
+                        <p-dropdown [options]="bankBranches" name="bankBranch" [placeholder]="bankBranchPlaceholder"
+                            [disabled]="!selectedBank" [ngModel]="currentEmployee?.bankBranch" optionLabel="town"
+                            optionValue="id" appendTo="body" [inputId]="'bankBranch'"></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="accNo">Account Number</label>
+                        <input type="text" [ngModel]="currentEmployee?.accNo" pInputText name="accNo" id="accNo">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="nextOfKin">Next of Kin Name</label>
+                        <input type="text" [ngModel]="currentEmployee?.nextOfKin" pInputText name="nextOfKin"
+                            id="nextOfKin">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="nextOfKinPhone">Next of Kin Phone</label>
+                        <input type="tel" [ngModel]="currentEmployee?.nextOfKinPhone" pInputText name="nextOfKinPhone"
+                            id="nextOfKinPhone">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="nextOfKinIdType">Identication Type</label>
+                        <p-dropdown [options]="idTypes" optionLabel="name" optionValue="value"
+                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType" required
+                            name="nextOfKinIdType" [inputId]="'nextOfKinIdType'" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="nextOfKinId">Next of Kin Identification No.</label>
+                        <input type="text" [ngModel]="currentEmployee?.nextOfKinId" pInputText name="nextOfKinId"
+                            id="nextOfKinId">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="educationLevel">Education Level</label>
+                        <p-dropdown [options]="academicLevels" placeholder="Academic Qualification" optionLabel="name"
+                            [inputId]="'educationLevel'" optionValue="value" name="educationLevel" required
+                            [ngModel]="currentEmployee?.educationLevel" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="almaMata">Alma Matter</label>
+                        <input type="text" [ngModel]="currentEmployee?.almaMata" required pInputText name="almaMata"
+                            id="almaMata">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="graduationDate">Graduation Date</label>
+                        <p-calendar [ngModel]="currentEmployee?.graduationDate" required name="graduationDate"
+                            [inputId]="'graduationDate'"></p-calendar>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="title">Title</label>
+                        <input type="text" [ngModel]="currentEmployee?.title" required pInputText name="title"
+                            id="title">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="hireDate">Date Joined</label>
+                        <p-calendar [ngModel]="currentEmployee?.hireDate" required name="hireDate"
+                            [inputId]="'hireDate'"></p-calendar>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" [ngModel]="currentEmployee?.jobTitle" required pInputText name="jobTitle"
+                            id="jobTitle">
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="department">Department</label>
+                        <p-dropdown [options]="departments" [ngModel]="currentEmployee?.department" name="department"
+                            [inputId]="'department'" placeholder="Select Department" optionLabel="name" optionValue="id"
+                            appendTo="body"></p-dropdown>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <button label="Save" icon="pi pi-save" pButton></button>
+                    </div>
+                </div>
+            </form>
+        </p-dialog>
+        <p-toast></p-toast>
+        <p-table [value]="employees" styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Staff No</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-employee>
+                <tr>
+                    <td>{{employee.staffNo | uppercase}}</td>
+                    <td>{{employee.firstname + ' ' + employee.lastname | titlecase}}</td>
+                    <td>{{employee.phone}}</td>
+                    <td>{{employee.email | lowercase}}</td>
+                    <td class="link" (click)="onEditEmployee(employee)">Edit</td>
+                    <td class="danger" (click)="onDeleteEmployee(employee)">Delete</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+</app-educate-menu>

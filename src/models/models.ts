@@ -65,6 +65,7 @@ export interface Employee {
     staffNo: string;
     firstname: string;
     lastname: string;
+    fullName?: string;
     othernames: string;
     dob: string;
     gender: string;
@@ -78,6 +79,7 @@ export interface Employee {
     nssf: string;
     nhif: string;
     bankBranch: number;
+    bankBranchName?: string;
     accNo: string;
     nextOfKin: string;
     nextOfKinPhone: string;
@@ -90,7 +92,9 @@ export interface Employee {
     title: string;
     jobTitle: string;
     department: number;
+    departmentName?: string;
     leaves: Array<EmployeeLeave>;
+    bankId?: number;
 }
 
 export interface Student {
@@ -170,4 +174,25 @@ export interface Department {
     motto: string;
     employees: Array<Employee>;
     courses: Array<Course>;
+}
+
+export interface BankBranch {
+    id: number;
+    town: string;
+    bank: number;
+    address: string;
+    contact: string;
+}
+
+export interface Bank {
+    id: number;
+    shortDesc: string;
+    description: string;
+    branches: Array<BankBranch>;
+    createdOn: string;
+}
+
+export interface KeyValue {
+    name: string;
+    value: any;
 }

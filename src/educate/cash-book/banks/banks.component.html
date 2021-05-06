@@ -1,0 +1,98 @@
+<app-educate-menu [pageTitle]="'Financial Institutions'">
+    <ng-container class="page-content">
+        <p-menubar [model]="bankMenu"></p-menubar>
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
+        <p-dialog [header]="bankAction + ' Bank Account'" [maximizable]="false" [modal]="true"
+            [(visible)]="showBankDialog">
+            <form (ngSubmit)="saveBank(f)" #f="ngForm" ngNativeValidate>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="shortDesc">Short Description</label>
+                        <input type="text" name="shortDesc" id="shortDesc" required [ngModel]="bank?.shortDesc"
+                            pInputText>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="description">Description</label>
+                        <input type="text" name="description" id="description" required [ngModel]="bank?.description"
+                            pInputText>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <button pButton label="Save" icon="pi pi-save"></button>
+                    </div>
+                </div>
+            </form>
+        </p-dialog>
+        <p-dialog [header]="branchAction + ' Branch'" [modal]="true" [maximizable]="false" [(visible)]="showAddBranch">
+            <form #f2="ngForm" ngNativeValidate (ngSubmit)="saveBranch(f2)">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="town">Town</label>
+                        <input type="text" name="town" id="town" pInputText [ngModel]="branch?.town" required>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="contact">Contact No.</label>
+                        <input type="tel" name="contact" id="contact" pInputText [ngModel]="branch?.contact" required>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label for="address">Street Address</label>
+                        <input type="text" name="address" id="address" pInputText [ngModel]="branch?.address" required>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-5">
+                        <button label="Save" icon="pi pi-save" pButton></button>
+                    </div>
+                </div>
+            </form>
+        </p-dialog>
+        <p-dialog [header]="currentBank?.description + ' Branches'" [modal]="true" [(visible)]="showBranches"
+            [style]="{'width': '450px'}">
+            <button pButton label="Add" icon="pi pi-plus" (click)="onAddBranch()"></button>
+            <p-table [value]="branches">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Town</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-branch>
+                    <tr>
+                        <td>{{branch.town}}</td>
+                        <td>{{branch.contact}}</td>
+                        <td>{{branch.address}}</td>
+                        <td class="link" (click)="onEditBranch(branch)">Edit</td>
+                        <td class="danger" (click)="onDeleteBranch(branch)">Delete</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-dialog>
+        <p-table [value]="banks">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Short Description</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-bank>
+                <tr>
+                    <td>{{bank.shortDesc | uppercase}}</td>
+                    <td>{{bank.description | titlecase}}</td>
+                    <td>{{bank.createdOn | date}}</td>
+                    <td class="link" (click)="onViewBranches(bank)">Branches</td>
+                    <td class="link" (click)="onUpdate(bank)">Update</td>
+                    <td class="danger" (click)="onDelete(bank)">Delete</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+</app-educate-menu>

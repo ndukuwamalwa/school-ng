@@ -13,6 +13,7 @@ import { TicketsModule } from 'src/educate/tickets/tickets.module';
 import { UsersModule } from 'src/educate/users/users.module';
 import { EmployeesModule } from 'src/educate/employees/employees.module';
 import { DepartmentsModule } from 'src/educate/departments/departments.module';
+import { CashBookModule } from 'src/educate/cash-book/cash-book.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DepartmentsModule } from 'src/educate/departments/departments.module';
     TicketsModule,
     UsersModule,
     EmployeesModule,
-    DepartmentsModule
+    DepartmentsModule,
+    CashBookModule
   ],
   providers: [
     {

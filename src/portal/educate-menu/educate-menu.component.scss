@@ -5,12 +5,14 @@ body {
 nav {
     margin-right: 10px;
     position: fixed;
+    overflow-y: auto;
+    height: calc(100% - 1px);
 }
 
 main {
     margin-right: 10px;
-    width: calc(99vw - var(--nav-width) - 10px);
-    left: calc(var(--nav-width) + 10px);
+    width: calc(99vw - var(--nav-width) - 20px);
+    left: calc(var(--nav-width) + 20px);
     position: absolute;
     z-index: 499;
     top: calc(var(--top-width) + 10px);
@@ -18,8 +20,8 @@ main {
 
 .top {
     position: fixed;
-    width: calc(99vw - var(--nav-width) - 10px);
-    left: calc(var(--nav-width) + 10px);
+    width: calc(99vw - var(--nav-width) - 20px);
+    left: calc(var(--nav-width) + 20px);
     z-index: 500;
     background-color: #fff;
     display: flex;

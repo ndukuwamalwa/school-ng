@@ -153,16 +153,44 @@ export class EducateMenuComponent implements OnInit {
         label: 'Cash Book',
         icon: PrimeIcons.DOLLAR,
         visible: this.sessionService.canAccessModule('CASHBOOK'),
+        expanded: this.whenLinkIn(['/banks', '/banks/accounts']),
         items: [
           {
-            label: 'Receipts',
-            icon: PrimeIcons.ARROW_DOWN,
-            visible: this.sessionService.canAccessItem('CASHBOOK.FEE_RECEIPTS')
+            label: 'Financial Accounts',
+            icon: PrimeIcons.DOLLAR,
+            visible: true,
+            expanded: this.whenLinkIn(['/banks', '/banks/accounts']),
+            items: [
+              {
+                label: 'Banks',
+                icon: PrimeIcons.BRIEFCASE,
+                visible: true,
+                routerLink: '/banks'
+              },
+              {
+                label: 'Institution Accounts',
+                icon: PrimeIcons.BOOKMARK,
+                visible: this.sessionService.canAccessItem('CASHBOOK.VIEW_BANK_ACCOUNTS'),
+                routerLink: '/banks/accounts'
+              }
+            ]
           },
           {
-            label: 'Payments',
-            icon: PrimeIcons.ARROW_UP,
-            visible: this.sessionService.canAccessItem('CASHBOOK.PAYMENTS')
+            label: 'Transactions',
+            icon: PrimeIcons.BOOK,
+            visible: true,
+            items: [
+              {
+                label: 'Receipts',
+                icon: PrimeIcons.ARROW_DOWN,
+                visible: this.sessionService.canAccessItem('CASHBOOK.FEE_RECEIPTS')
+              },
+              {
+                label: 'Payments',
+                icon: PrimeIcons.ARROW_UP,
+                visible: this.sessionService.canAccessItem('CASHBOOK.PAYMENTS')
+              }
+            ]
           }
         ]
       },
@@ -192,15 +220,10 @@ export class EducateMenuComponent implements OnInit {
         ]),
         items: [
           {
-            label: 'New',
-            icon: PrimeIcons.PLUS,
-            visible: this.sessionService.canAccessItem('EMPLOYEES.ADD'),
-            routerLink: '/employees/create'
-          },
-          {
             label: 'List',
             icon: PrimeIcons.LIST,
-            visible: this.sessionService.canAccessItem('EMPLOYEES.LIST')
+            visible: this.sessionService.canAccessItem('EMPLOYEES.LIST'),
+            routerLink: '/employees/list'
           }
         ]
       },

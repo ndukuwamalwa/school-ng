@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { PortalModule } from 'src/portal/portal.module';
-import { CoursesModule } from 'src/courses/courses.module';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/interceptors/token.interceptor';
@@ -14,6 +13,7 @@ import { UsersModule } from 'src/educate/users/users.module';
 import { EmployeesModule } from 'src/educate/employees/employees.module';
 import { DepartmentsModule } from 'src/educate/departments/departments.module';
 import { CashBookModule } from 'src/educate/cash-book/cash-book.module';
+import { CoursesModule } from 'src/educate/courses/courses.module';
 
 @NgModule({
   declarations: [
@@ -24,14 +24,14 @@ import { CashBookModule } from 'src/educate/cash-book/cash-book.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     PortalModule,
-    CoursesModule,
     GraphQLModule,
     HttpClientModule,
     TicketsModule,
     UsersModule,
     EmployeesModule,
     DepartmentsModule,
-    CashBookModule
+    CashBookModule,
+    CoursesModule
   ],
   providers: [
     {

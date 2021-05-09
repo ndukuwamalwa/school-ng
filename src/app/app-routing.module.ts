@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CourseEditComponent } from 'src/courses/course-edit/course-edit.component';
 import { LoginComponent } from 'src/portal/login/login.component';
 import { AuthenticatedGuard } from 'src/guards/authenticated.guard';
 import { TicketsComponent } from 'src/educate/tickets/tickets/tickets.component';
@@ -12,6 +11,7 @@ import { BanksComponent } from 'src/educate/cash-book/banks/banks.component';
 import { BankAccountsComponent } from 'src/educate/cash-book/bank-accounts/bank-accounts.component';
 import { DepartmentsResolver } from 'src/resolvers/departments.resolver';
 import { BanksResolver } from 'src/resolvers/banks.resolver';
+import { CourseListComponent } from 'src/educate/courses/course-list/course-list.component';
 
 const routes: Routes = [
   {
@@ -20,9 +20,12 @@ const routes: Routes = [
     canActivate: [AuthenticatedGuard]
   },
   {
-    path: 'courses',
-    component: CourseEditComponent,
-    canActivate: [AuthenticatedGuard]
+    path: 'courses/list',
+    component: CourseListComponent,
+    canActivate: [AuthenticatedGuard],
+    resolve: {
+      departments: DepartmentsResolver
+    }
   },
   {
     path: 'tickets',

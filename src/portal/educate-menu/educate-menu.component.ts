@@ -33,17 +33,14 @@ export class EducateMenuComponent implements OnInit {
       {
         label: 'Courses',
         icon: PrimeIcons.BOOK,
+        expanded: this.whenLinkIn(['/courses/list']),
         visible: this.sessionService.canAccessModule('COURSES'),
         items: [
           {
-            label: 'New',
-            icon: PrimeIcons.PLUS,
-            visible: this.sessionService.canAccessItem('COURSES.NEW')
-          },
-          {
             label: 'List',
             icon: PrimeIcons.LIST,
-            visible: this.sessionService.canAccessItem('COURSES.LIST')
+            visible: this.sessionService.canAccessItem('COURSES.LIST'),
+            routerLink: '/courses/list'
           }
         ]
       },

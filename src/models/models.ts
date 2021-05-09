@@ -135,8 +135,8 @@ export interface CourseJourney {
     course: number;
     level: number;
     terms: number;
-    students: Array<Student>;
-    subjects: Array<CourseSubject>;
+    students?: Array<Student>;
+    subjects?: Array<CourseSubject>;
 }
 
 export interface CourseStudent {
@@ -153,10 +153,9 @@ export interface CourseStudent {
 }
 
 export interface Course {
-    id: string;
+    id: number;
     name: string;
     code: string;
-    description: string;
     department: number;
     duration: number;
     durationIn: string;

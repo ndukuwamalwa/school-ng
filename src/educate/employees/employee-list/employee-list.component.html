@@ -28,21 +28,21 @@
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-8 p-md-3">
                         <label for="dob">Date of Birth</label>
-                        <p-calendar [ngModel]="currentEmployee?.dob" required="true" name="dob"
-                            [inputId]="'dob'"></p-calendar>
+                        <p-calendar [ngModel]="currentEmployee?.dob" [required]="true" name="dob" [inputId]="'dob'">
+                        </p-calendar>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
                         <label for="gender">Gender</label>
                         <p-dropdown [options]="genders" optionLabel="name" optionValue="value" placeholder="Select"
-                            [ngModel]="currentEmployee?.gender" name="gender" [inputId]="'gender'"
-                            appendTo="body" required="true">
+                            [ngModel]="currentEmployee?.gender" name="gender" [inputId]="'gender'" appendTo="body"
+                            [required]="true">
                         </p-dropdown>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
                         <label for="idType">Identification Type</label>
                         <p-dropdown [options]="idTypes" optionLabel="name" optionValue="value"
-                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType" required name="idType"
-                            [inputId]="'idType'" appendTo="body"></p-dropdown>
+                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType" [required]="true"
+                            name="idType" [inputId]="'idType'" appendTo="body"></p-dropdown>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
                         <label for="idNo">Identification Number</label>
@@ -88,7 +88,8 @@
                     <div class="p-field p-col-8 p-md-3">
                         <label for="bank">Bank</label>
                         <p-dropdown [options]="banks" optionLabel="description" name="bank" placeholder="Bank"
-                            [ngModel]="currentEmployee?.bankId" (onChange)="onBankSelected($event)" appendTo="body" [inputId]="'bank'">
+                            [ngModel]="currentEmployee?.bankId" (onChange)="onBankSelected($event)" appendTo="body"
+                            [inputId]="'bank'">
                         </p-dropdown>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
@@ -116,7 +117,7 @@
                     <div class="p-field p-col-8 p-md-3">
                         <label for="nextOfKinIdType">Identication Type</label>
                         <p-dropdown [options]="idTypes" optionLabel="name" optionValue="value"
-                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType" required
+                            placeholder="Identification Type" [ngModel]="currentEmployee?.idType"
                             name="nextOfKinIdType" [inputId]="'nextOfKinIdType'" appendTo="body"></p-dropdown>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
@@ -129,7 +130,7 @@
                     <div class="p-field p-col-8 p-md-3">
                         <label for="educationLevel">Education Level</label>
                         <p-dropdown [options]="academicLevels" placeholder="Academic Qualification" optionLabel="name"
-                            [inputId]="'educationLevel'" optionValue="value" name="educationLevel" required
+                            [inputId]="'educationLevel'" optionValue="value" name="educationLevel" [required]="true"
                             [ngModel]="currentEmployee?.educationLevel" appendTo="body"></p-dropdown>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
@@ -139,7 +140,7 @@
                     </div>
                     <div class="p-field p-col-8 p-md-3">
                         <label for="graduationDate">Graduation Date</label>
-                        <p-calendar [ngModel]="currentEmployee?.graduationDate" required name="graduationDate"
+                        <p-calendar [ngModel]="currentEmployee?.graduationDate" [required]="true" name="graduationDate"
                             [inputId]="'graduationDate'"></p-calendar>
                     </div>
                     <div class="p-field p-col-8 p-md-3">
@@ -151,7 +152,7 @@
                 <div class="p-fluid p-formgrid p-grid">
                     <div class="p-field p-col-8 p-md-3">
                         <label for="hireDate">Date Joined</label>
-                        <p-calendar [ngModel]="currentEmployee?.hireDate" required name="hireDate"
+                        <p-calendar [ngModel]="currentEmployee?.hireDate" [required]="true" name="hireDate"
                             [inputId]="'hireDate'"></p-calendar>
                     </div>
                     <div class="p-field p-col-8 p-md-3">

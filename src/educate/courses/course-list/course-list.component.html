@@ -1,0 +1,113 @@
+<app-educate-menu [pageTitle]="'Courses'">
+    <ng-container class="page-content">
+        <p-menubar [model]="menu"></p-menubar>
+        <p-toast></p-toast>
+        <p-confirmDialog></p-confirmDialog>
+        <p-dialog [header]="courseAction + ' Course'" [maximizable]="false" [modal]="true" [(visible)]="showAddCourse">
+            <form #courseForm="ngForm" ngNativeValidate (ngSubmit)="saveCourse(courseForm)">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="code">Course Code</label>
+                        <input type="text" name="code" id="code" [ngModel]="currentCourse?.code" required pInputText>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="name">Course Name</label>
+                        <input type="text" name="name" id="name" [ngModel]="currentCourse?.name" required pInputText>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="department">Department</label>
+                        <p-dropdown [options]="departments" optionLabel="name" name="department"
+                            [ngModel]="currentCourse?.department" optionValue="id" [required]="true"
+                            placeholder="Select" [inputId]="'department'" appendTo="body"></p-dropdown>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="durationIn">Measure of Duration</label>
+                        <p-dropdown [options]="durations" optionLabel="name" name="durationIn"
+                            [ngModel]="currentCourse?.durationIn" optionValue="value" [required]="true"
+                            placeholder="Select" [inputId]="'durationIn'" appendTo="body"></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-8 p-md-3">
+                        <label for="duration">Course Duration</label>
+                        <p-inputNumber name="duration" [inputId]="'duration'" [ngModel]="currentCourse?.duration"
+                            [required]="true" [min]="1"></p-inputNumber>
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-3">
+                        <button label="Save" icon="pi pi-save" pButton></button>
+                    </div>
+                </div>
+            </form>
+        </p-dialog>
+        <p-dialog [header]="'Course Steps: ' + currentCourse?.name" [maximizable]="false" [modal]="true"
+            [(visible)]="showStepsPop">
+            <form #steptsForm="ngForm" ngNativeValidate (ngSubmit)="onSaveSteps(steptsForm)"
+                *ngIf="currentCourse?.journeys?.length === 0">
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-7">
+                        <label for="stepsCount">Number of Steps</label>
+                        <input type="number" name="stepsCount" id="stepsCount" ngModel required pInputText
+                            (keyup)="onStepsCountChange($event.target.value)" min="1"
+                            (change)="onStepsCountChange($event.target.value)">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid" *ngFor="let journey of journeys">
+                    <div class="p-field p-col-8 p-md-5">
+                        <label [for]="'xcav' + journey.id">Step</label>
+                        <input type="text" [ngModel]="'Level ' + journey?.level" [name]="'Level ' + journey?.level"
+                            [disabled]="true" pInputText>
+                    </div>
+                    <div class="p-field p-col-8 p-md-5">
+                        <label [for]="'terms' + journey?.level">No. of Terms</label>
+                        <input type="number" ngModel [name]="'terms' + journey?.level" [id]="'terms' + journey?.level"
+                            pInputText required min="1">
+                    </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-8 p-md-7">
+                        <button label="Save" icon="pi pi-save" pButton></button>
+                    </div>
+                </div>
+            </form>
+            <p-table [value]="currentCourse.journeys" styleClass="p-datatable-striped"
+                *ngIf="currentCourse?.journeys?.length > 0" [style]="{ 'width': '300px' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Level</th>
+                        <th>No. of Terms</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-journey>
+                    <tr>
+                        <td>Level {{journey.level}}</td>
+                        <td>{{journey.terms | number}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-dialog>
+        <p-table [value]="courses" styleClass="p-datatable-striped" [selection]="true" [selectionMode]="'single'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-course>
+                <tr>
+                    <td>{{course.code | uppercase}}</td>
+                    <td>{{course.name}}</td>
+                    <td>{{course.duration + ' ' + course.durationIn}}</td>
+                    <td class="link" (click)="onShowCourseSteps(course)">Steps</td>
+                    <td class="link" (click)="onEditCourse(course)">Edit</td>
+                    <td class="danger" (click)="deleteCourse(course)">Delete</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-container>
+</app-educate-menu>
